@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="refresh" content="60">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Сервис Кинотеатр</title>
+</head>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/cinema/hall',
+            dataType: 'json'
+        }).done(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                let seat = "" + data[i]['row'] + data[i]['cell'];
+                document.getElementById(seat).disabled = true;
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    });
+
+    function payment() {
+        let place = $('[name=place]:checked');
+        if (place.length) {
+            let row = place.attr("row");
+            let cell = place.attr("cell");
+            window.location.href = 'payment.html?row=' + row + '&cell=' + cell;
+        }
+        else
+            alert('Необходимо выбрать место');
+    }
+
+</script>
+
+<body>
+<div class="container">
+    <div class="row pt-3">
+        <h4>
+            Бронирование мест на сеанс
+        </h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 120px;">Ряд / Место</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>1</th>
+                <td><input type="radio" name="place" id="11" row = "1" cell = "1"> Ряд 1, Место 1</td>
+                <td><input type="radio" name="place" id="12" row = "1" cell = "2"> Ряд 1, Место 2</td>
+                <td><input type="radio" name="place" id="13" row = "1" cell = "3"> Ряд 1, Место 3</td>
+            </tr>
+            <tr>
+                <th>2</th>
+                <td><input type="radio" name="place" id="21" row = "2" cell = "1"> Ряд 2, Место 1</td>
+                <td><input type="radio" name="place" id="22" row = "2" cell = "2"> Ряд 2, Место 2</td>
+                <td><input type="radio" name="place" id="23" row = "2" cell = "3"> Ряд 2, Место 3</td>
+            </tr>
+            <tr>
+                <th>3</th>
+                <td><input type="radio" name="place" id="31" row = "3" cell = "1"> Ряд 3, Место 1</td>
+                <td><input type="radio" name="place" id="32" row = "3" cell = "2"> Ряд 3, Место 2</td>
+                <td><input type="radio" name="place" id="33" row = "3" cell = "3"> Ряд 3, Место 3</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row float-right">
+        <button type="button" class="btn btn-success" onclick="return payment()">Оплатить</button>
+    </div>
+</div>
+</body>
+</html>
